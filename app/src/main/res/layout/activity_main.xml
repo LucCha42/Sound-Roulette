@@ -15,14 +15,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/GotoBoardButton"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:foreground="@drawable/ic_baseline_list_24" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/RandomButton"
         android:layout_width="220dp"
         android:layout_height="220dp"
         android:text="Roulette"
