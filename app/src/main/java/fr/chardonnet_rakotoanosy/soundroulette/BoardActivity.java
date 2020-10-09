@@ -53,6 +53,7 @@ public class BoardActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_LOAD_SOUND && requestCode == RESULT_OK) {
             File soundFile = new File(data.getData().toString());
+
             //TODO add new file to local storage
         }
     }
