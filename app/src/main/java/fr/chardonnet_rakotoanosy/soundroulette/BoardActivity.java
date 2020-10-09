@@ -12,6 +12,8 @@ import android.widget.Button;
 import java.io.File;
 
 public class BoardActivity extends AppCompatActivity {
+    private Button goToMainButton;
+    private Button addSongButton;
 
     private Button addButton;
     public final static int REQUEST_LOAD_SOUND = 1;
@@ -22,6 +24,16 @@ public class BoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board);
 
         addButton = findViewById(R.id.AddButton);
+        goToMainButton = findViewById(R.id.GotoMainButton);
+
+        //Listener GotoRandomButton
+        goToMainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // add a sound file listener
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +44,7 @@ public class BoardActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_LOAD_SOUND);
             }
         });
+
     }
 
     @Override
