@@ -7,19 +7,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button gotoBoardButton;
     private Button randomButton;
+    private ArrayList sounds = new ArrayList();
 
     @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-            // getting buttons
-            gotoBoardButton = findViewById(R.id.GotoBoardButton); // auto cast
-            randomButton = findViewById(R.id.RandomButton);
+        // getting buttons
+        gotoBoardButton = findViewById(R.id.GotoBoardButton); // auto cast
+        randomButton = findViewById(R.id.RandomButton);
 
         // go to board button listener
         gotoBoardButton.setOnClickListener(new View.OnClickListener() {

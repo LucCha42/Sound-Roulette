@@ -12,6 +12,7 @@ import android.widget.Button;
 import java.io.File;
 
 public class BoardActivity extends AppCompatActivity {
+
     private Button goToMainButton;
     private Button addSongButton;
 
@@ -26,7 +27,7 @@ public class BoardActivity extends AppCompatActivity {
         addButton = findViewById(R.id.AddButton);
         goToMainButton = findViewById(R.id.GotoMainButton);
 
-        //Listener GotoRandomButton
+        //Listener Go to main button
         goToMainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
