@@ -3,14 +3,19 @@ package fr.chardonnet_rakotoanosy.soundroulette;
 import java.io.File;
 
 public class Sound {
-    private int id;
+
     private String name;
     private File file;
 
-    //Getter
-    public int getId(){
-        return this.id;
+    public Sound(String name, File file) {
+        this.name = name;
+        this.file = file;
     }
+
+    public Sound(File file) {
+        this.file = file;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -18,10 +23,6 @@ public class Sound {
         return this.file;
     }
 
-    //Setter
-    public void setId(int id) {
-        this.id = id;
-    }
     public void setName(String name) {
         this.name = name;
     }
