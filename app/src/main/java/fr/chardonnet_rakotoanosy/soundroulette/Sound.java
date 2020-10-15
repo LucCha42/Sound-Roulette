@@ -1,32 +1,30 @@
 package fr.chardonnet_rakotoanosy.soundroulette;
 
-import java.io.File;
+import android.net.Uri;
 
 public class Sound {
 
     private String name;
-    private File file;
+    private Uri uri;
 
-    public Sound(String name, File file) {
+    public Sound(String name, Uri uri) {
         this.name = name;
-        this.file = file;
+        this.uri = uri;
     }
 
-    public Sound(File file) {
-        this.file = file;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-    public File getFile() {
-        return this.file;
+    public Sound(Uri uri) {
+        this.uri = uri;
     }
 
     public void setName(String name) {
         this.name = name;
     }
-    public void setFile(File file) {
-        this.file = file;
+
+    public String getName() {
+        return name;
+    }
+
+    public Uri getUri() {
+        return uri;
     }
 }

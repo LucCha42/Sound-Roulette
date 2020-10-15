@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,16 +16,22 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button randomButton;
-
     private ArrayList<Sound> sounds = new ArrayList<Sound>();
     private MediaPlayer mp = new MediaPlayer();
+    private Button randomButton;
 
     public final static int REQUEST_LOAD_SOUND = 1;
+
+    public ArrayList<Sound> getSounds() {
+        return sounds;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +44,24 @@ public class MainActivity extends AppCompatActivity {
         randomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "random", Toast.LENGTH_LONG).show();
-                //TODO take random path in the model
-                String selectedPath = "this/is/a/file.mp3";
+
+                // getting random sound
+                Random r = new Random();
+                int randIndex = r.nextInt(sounds.size() + 1);
+                Sound sound = sounds.get(randIndex);
+
+                // playing the sound
                 try {
-                    mp.setDataSource(selectedPath);
+                    mp.setDataSource(getApplicationContext(), sound.getUri());
                     mp.prepare();
-                    mp.start(); // play the sound
+                    mp.start();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "File not found", Toast.LENGTH_LONG).show();
                 }
             }
         });
+
         //TODO loading saved sounds in model
     }
 
@@ -61,17 +74,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.goto_board_button:
                 Intent gotoIntent = new Intent(getApplicationContext(), BoardActivity.class);
                 startActivity(gotoIntent);
                 return true;
+
             case R.id.add_button:
                 Intent addIntent = new Intent();
                 addIntent.setAction(Intent.ACTION_GET_CONTENT);
                 addIntent.addCategory(Intent.CATEGORY_OPENABLE);
                 addIntent.setType("audio/*");
-                startActivityForResult(Intent.createChooser(addIntent, "Ajout d'un son"), REQUEST_LOAD_SOUND);
+                startActivityForResult(addIntent, REQUEST_LOAD_SOUND);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -82,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK) {
             if (data.getData() != null) {
-                File soundFile = new File(data.getData().toString());
-                Toast.makeText(getApplicationContext(), data.getData().toString(), Toast.LENGTH_LONG).show();
-                //TODO add new file to local storage
+                // updating model
+                Sound sound = new Sound(data.getData());
+                sounds.add(sound);
             } else {
                 Toast.makeText(getApplicationContext(), "File loading error", Toast.LENGTH_LONG).show();
             }
