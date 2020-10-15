@@ -1,31 +1,25 @@
 package fr.chardonnet_rakotoanosy.soundroulette;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.File;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<Sound> sounds = new ArrayList<Sound>();
-    private MediaPlayer mp = new MediaPlayer();
-    private Button randomButton;
+    private final ArrayList<Sound> sounds = new ArrayList<>();
+    private final MediaPlayer mp = new MediaPlayer();
 
     public final static int REQUEST_LOAD_SOUND = 1;
 
@@ -36,28 +30,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        randomButton = findViewById(R.id.RandomButton);
+        setContentView(R.layout.main_activity);
 
         // random button listener
-        randomButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.RandomButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (sounds.size() > 0) {
 
-                // getting random sound
-                Random r = new Random();
-                int randIndex = r.nextInt(sounds.size() + 1);
-                Sound sound = sounds.get(randIndex);
+                    // getting random sound
+                    Random r = new Random();
+                    int randIndex = r.nextInt(sounds.size());
+                    Sound sound = sounds.get(randIndex);
 
-                // playing the sound
-                try {
-                    mp.setDataSource(getApplicationContext(), sound.getUri());
-                    mp.prepare();
-                    mp.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "File not found", Toast.LENGTH_LONG).show();
+                    // play the sound
+                    try {
+                        mp.reset();
+                        mp.setDataSource(getApplicationContext(), sound.getUri());
+                        mp.prepare();
+                        mp.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Sound playing error", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "No sound registered", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -102,10 +99,10 @@ public class MainActivity extends AppCompatActivity {
                 Sound sound = new Sound(data.getData());
                 sounds.add(sound);
             } else {
-                Toast.makeText(getApplicationContext(), "File loading error", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "File loading error", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(getApplicationContext(), "No valid activity result", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No valid activity result", Toast.LENGTH_LONG).show();
         }
     }
 }
