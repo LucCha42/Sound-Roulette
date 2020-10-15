@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
         randomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "random", Toast.LENGTH_LONG).show();
                 //TODO take random path in the model
-                String selectedPath = "/fichier/de/son";
+                String selectedPath = "this/is/a/file.mp3";
                 try {
                     mp.setDataSource(selectedPath);
                     mp.prepare();
@@ -64,9 +66,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(gotoIntent);
                 return true;
             case R.id.add_button:
-                Intent addIntent = new Intent(Intent.ACTION_PICK);
+                Intent addIntent = new Intent();
+                addIntent.setAction(Intent.ACTION_GET_CONTENT);
+                addIntent.addCategory(Intent.CATEGORY_OPENABLE);
                 addIntent.setType("audio/*");
-                startActivityForResult(addIntent, REQUEST_LOAD_SOUND);
+                startActivityForResult(Intent.createChooser(addIntent, "Ajout d'un son"), REQUEST_LOAD_SOUND);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -76,9 +80,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_LOAD_SOUND && requestCode == RESULT_OK) {
-            File soundFile = new File(data.getData().toString());
-            //TODO add new file to local storage
+        if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK) {
+            if (data.getData() != null) {
+                File soundFile = new File(data.getData().toString());
+                Toast.makeText(getApplicationContext(), data.getData().toString(), Toast.LENGTH_LONG).show();
+                //TODO add new file to local storage
+            } else {
+                Toast.makeText(getApplicationContext(), "File loading error", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "No valid activity result", Toast.LENGTH_LONG).show();
         }
     }
 }

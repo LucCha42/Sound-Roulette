@@ -43,29 +43,14 @@ public class BoardActivity extends AppCompatActivity {
                 startActivity(gotoIntent);
                 return true;
             case R.id.add_button:
-                Intent addIntent = new Intent(Intent.ACTION_PICK);
+                Intent addIntent = new Intent();
+                addIntent.setAction(Intent.ACTION_GET_CONTENT);
+                addIntent.addCategory(Intent.CATEGORY_OPENABLE);
                 addIntent.setType("audio/*");
-                startActivityForResult(addIntent, REQUEST_LOAD_SOUND);
+                startActivityForResult(Intent.createChooser(addIntent, "Ajout d'un son"), REQUEST_LOAD_SOUND);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 }
-
-
-
-
-/*
-
-        //Listener Go to main button
-        goToMainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
- */
