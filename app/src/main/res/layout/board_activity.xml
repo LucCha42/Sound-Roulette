@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BoardActivity">
+    tools:context=".activity.BoardActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sound_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#CCCCCC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

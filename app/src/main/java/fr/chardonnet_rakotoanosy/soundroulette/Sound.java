@@ -12,6 +12,10 @@ public class Sound {
         this.uri = uri;
     }
 
+    public Sound(String name) {
+        this.name = name;
+    }
+
     public Sound(Uri uri) {
         this.uri = uri;
     }

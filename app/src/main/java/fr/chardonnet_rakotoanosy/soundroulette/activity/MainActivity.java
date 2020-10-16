@@ -1,4 +1,4 @@
-package fr.chardonnet_rakotoanosy.soundroulette;
+package fr.chardonnet_rakotoanosy.soundroulette.activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -15,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import fr.chardonnet_rakotoanosy.soundroulette.R;
+import fr.chardonnet_rakotoanosy.soundroulette.Sound;
+import fr.chardonnet_rakotoanosy.soundroulette.activity.BoardActivity;
 
 public class MainActivity extends AppCompatActivity {
 
