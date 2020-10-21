@@ -27,14 +27,12 @@ public class MainActivity extends AppCompatActivity {
 
     public final static int REQUEST_LOAD_SOUND = 1;
 
-    public ArrayList<Sound> getSounds() {
-        return sounds;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        //TODO loading saved sounds in model
 
         // random button listener
         findViewById(R.id.RandomButton).setOnClickListener(new View.OnClickListener() {
@@ -62,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //TODO loading saved sounds in model
     }
 
     @Override
@@ -78,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.goto_board_button:
                 Intent gotoIntent = new Intent(getApplicationContext(), BoardActivity.class);
+                //gotoIntent.putExtra("Sounds", sounds);
                 startActivity(gotoIntent);
                 return true;
 

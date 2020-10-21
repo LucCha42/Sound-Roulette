@@ -2,7 +2,9 @@ package fr.chardonnet_rakotoanosy.soundroulette;
 
 import android.net.Uri;
 
-public class Sound {
+import java.io.Serializable;
+
+public class Sound implements Serializable {
 
     private String name;
     private Uri uri;
@@ -10,10 +12,6 @@ public class Sound {
     public Sound(String name, Uri uri) {
         this.name = name;
         this.uri = uri;
-    }
-
-    public Sound(String name) {
-        this.name = name;
     }
 
     public Sound(Uri uri) {

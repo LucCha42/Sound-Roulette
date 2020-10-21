@@ -18,8 +18,9 @@ import java.util.ArrayList;
 import fr.chardonnet_rakotoanosy.soundroulette.SoundAdapter;
 import fr.chardonnet_rakotoanosy.soundroulette.R;
 import fr.chardonnet_rakotoanosy.soundroulette.Sound;
+import fr.chardonnet_rakotoanosy.soundroulette.SoundNameDialog;
 
-public class BoardActivity extends AppCompatActivity {
+public class BoardActivity extends AppCompatActivity implements SoundNameDialog.SoundNameDialogListener {
 
     public final static int REQUEST_LOAD_SOUND = 1;
 
@@ -32,10 +33,8 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_activity);
 
-        //TODO loading sounds
-        sounds.add(new Sound("Mozart"));
-        sounds.add(new Sound("Beethoven"));
-        sounds.add(new Sound("Chopin"));
+        // getting model from main activity
+        //sounds = (ArrayList<Sound>) getIntent().getSerializableExtra("Sounds");
 
         // build recycler view
         list = findViewById(R.id.sound_list);
@@ -63,6 +62,7 @@ public class BoardActivity extends AppCompatActivity {
                 Intent addIntent = new Intent();
                 addIntent.setAction(Intent.ACTION_GET_CONTENT);
                 addIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                addIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 addIntent.setType("audio/*");
                 startActivityForResult(addIntent, REQUEST_LOAD_SOUND);
                 return true;
@@ -77,8 +77,10 @@ public class BoardActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK) {
             if (data.getData() != null) {
-                // updating model and view
-                Sound sound = new Sound("son", data.getData());
+                Sound sound = new Sound("new sound", data.getData());
+                // sound naming dialog
+                openDialog(sound);
+                //updating model and view
                 sounds.add(sound);
                 soundAdapter.notifyItemInserted(sounds.indexOf(sound));
             } else {
@@ -87,5 +89,16 @@ public class BoardActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No valid activity result", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void rename(Sound sound, String soundName) {
+        sound.setName(soundName);
+        soundAdapter.notifyItemChanged(sounds.indexOf(sound));
+    }
+
+    public void openDialog(Sound sound) {
+        SoundNameDialog dialog = new SoundNameDialog(sound);
+        dialog.show(getSupportFragmentManager(), "soundNameDialog");
     }
 }

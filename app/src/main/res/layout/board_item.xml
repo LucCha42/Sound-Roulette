@@ -8,18 +8,16 @@
 
     <ImageView
         android:id="@+id/play_img"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:scaleType="fitCenter"
-        android:tint="@android:color/black"
-        app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
+        app:srcCompat="@drawable/ic_baseline_play_arrow_24"
+        app:tint="@android:color/black" />
 
     <TextView
         android:id="@+id/sound_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="5"
         android:gravity="center"
         android:text="TextView"
         android:textColor="@android:color/black"
