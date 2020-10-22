@@ -1,7 +1,6 @@
 package fr.chardonnet_rakotoanosy.soundroulette.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +24,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     public final static int REQUEST_LOAD_SOUND = 1;
 
     private ArrayList<Sound> sounds = new ArrayList<>();
-    private RecyclerView list;
+    private RecyclerView recyclerView;
     private SoundAdapter soundAdapter;
 
     @Override
@@ -36,11 +35,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         // getting model from main activity
         //sounds = (ArrayList<Sound>) getIntent().getSerializableExtra("Sounds");
 
-        // build recycler view
-        list = findViewById(R.id.sound_list);
-        list.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        soundAdapter = new SoundAdapter(sounds);
-        list.setAdapter(soundAdapter);
+        buildRecyclerView();
     }
 
     @Override
@@ -95,6 +90,20 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     public void rename(Sound sound, String soundName) {
         sound.setName(soundName);
         soundAdapter.notifyItemChanged(sounds.indexOf(sound));
+    }
+
+    public void buildRecyclerView() {
+        recyclerView = findViewById(R.id.sound_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        soundAdapter = new SoundAdapter(sounds);
+        recyclerView.setAdapter(soundAdapter);
+        soundAdapter.setOnItemClickListener(new SoundAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int index) {
+                // open dialog to rename sound
+                openDialog(sounds.get(index));
+            }
+        });
     }
 
     public void openDialog(Sound sound) {
