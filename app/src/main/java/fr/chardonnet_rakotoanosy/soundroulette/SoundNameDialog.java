@@ -34,6 +34,7 @@ public class SoundNameDialog extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         String name = editSoundName.getText().toString();
                         listener.rename(sound, name);
                     }
@@ -46,6 +47,9 @@ public class SoundNameDialog extends AppCompatDialogFragment {
                 });
 
         editSoundName = view.findViewById(R.id.edit_sound_name);
+        if(sound.getName()!="new sound") {
+            editSoundName.setText(sound.getName());
+        }
         return builder.create();
     }
 
