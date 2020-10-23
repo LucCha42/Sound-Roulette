@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        //TODO loading saved sounds in model
+        //TODO loading model from files
 
         // random button listener
         findViewById(R.id.RandomButton).setOnClickListener(new View.OnClickListener() {
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(gotoIntent);
                 return true;
 
+            /*
             case R.id.add_button:
                 Intent addIntent = new Intent();
                 addIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 addIntent.setType("audio/*");
                 startActivityForResult(addIntent, REQUEST_LOAD_SOUND);
                 return true;
+            */
 
             default:
                 return super.onOptionsItemSelected(item);
