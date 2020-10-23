@@ -32,10 +32,10 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_activity);
 
-        // getting model from main activity
-        //sounds = (ArrayList<Sound>) getIntent().getSerializableExtra("Sounds");
-
         buildRecyclerView();
+
+        //TODO loading model from files
+        //sounds = (ArrayList<Sound>) getIntent().getSerializableExtra("Sounds");
     }
 
     @Override
@@ -72,7 +72,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK) {
             if (data.getData() != null) {
-                Sound sound = new Sound("new sound", data.getData());
+                Sound sound = new Sound(sounds.size(), "", data.getData());
                 // sound naming dialog
                 openDialog(sound);
                 //updating model and view

@@ -24,11 +24,14 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
     }
 
     public static class SoundHolder extends RecyclerView.ViewHolder {
+
         public TextView name;
 
         public SoundHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
+
             name = itemView.findViewById(R.id.sound_name);
+
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
