@@ -15,11 +15,13 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 public class SoundNameDialog extends AppCompatDialogFragment {
 
     private EditText editSoundName; // name input
-    private final Sound sound; // sound to rename
     private SoundNameDialogListener listener;
+    private final Sound sound; // sound to rename
+    private final boolean isNew;
 
-    public SoundNameDialog(Sound sound) {
+    public SoundNameDialog(Sound sound, boolean isNew) {
         this.sound = sound;
+        this.isNew = isNew;
     }
 
     @Override
@@ -46,9 +48,12 @@ public class SoundNameDialog extends AppCompatDialogFragment {
                 });
 
         editSoundName = view.findViewById(R.id.edit_sound_name);
-        if(!sound.getName().equals("")) {
+        if (isNew) {
+            editSoundName.setHint("name");
+        } else {
             editSoundName.setText(sound.getName());
         }
+        editSoundName.requestFocus();
         return builder.create();
     }
 

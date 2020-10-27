@@ -78,7 +78,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                 Sound sound = new Sound(nextId, data.getData(), "unnamed");
 
                 // sound naming dialog
-                openDialog(sound);
+                openDialog(sound, true);
 
                 //updating model and view
                 SoundJsonFileStorage.get(context).insert(sound);
@@ -108,13 +108,13 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
             @Override
             public void onItemClick(int index) {
                 // open dialog to rename sound
-                openDialog(SoundJsonFileStorage.get(context).find(index));
+                openDialog(SoundJsonFileStorage.get(context).find(index), false);
             }
         });
     }
 
-    public void openDialog(Sound sound) {
-        SoundNameDialog dialog = new SoundNameDialog(sound);
+    public void openDialog(Sound sound, boolean isNew) {
+        SoundNameDialog dialog = new SoundNameDialog(sound, isNew);
         dialog.show(getSupportFragmentManager(), "soundNameDialog");
     }
 }
