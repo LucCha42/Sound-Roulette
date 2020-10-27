@@ -1,5 +1,6 @@
 package fr.chardonnet_rakotoanosy.soundroulette.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -19,10 +20,12 @@ import java.util.Random;
 import fr.chardonnet_rakotoanosy.soundroulette.R;
 import fr.chardonnet_rakotoanosy.soundroulette.Sound;
 import fr.chardonnet_rakotoanosy.soundroulette.activity.BoardActivity;
+import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final ArrayList<Sound> sounds = new ArrayList<>();
+    //private final ArrayList<Sound> sounds = new ArrayList<>();
+    private Context context;
     private final MediaPlayer mp = new MediaPlayer();
 
     public final static int REQUEST_LOAD_SOUND = 1;
@@ -32,18 +35,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        //TODO loading model from files
+        context = getApplicationContext();
 
         // random button listener
         findViewById(R.id.RandomButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sounds.size() > 0) {
+                if (SoundJsonFileStorage.get(context).size() > 0) {
 
                     // getting random sound
                     Random r = new Random();
-                    int randIndex = r.nextInt(sounds.size());
-                    Sound sound = sounds.get(randIndex);
+                    int randIndex = r.nextInt(SoundJsonFileStorage.get(context).size());
+                    Sound sound = SoundJsonFileStorage.get(context).find(randIndex);
 
                     // play the sound
                     try {
@@ -78,34 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(gotoIntent);
                 return true;
 
-            /*
-            case R.id.add_button:
-                Intent addIntent = new Intent();
-                addIntent.setAction(Intent.ACTION_GET_CONTENT);
-                addIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                addIntent.setType("audio/*");
-                startActivityForResult(addIntent, REQUEST_LOAD_SOUND);
-                return true;
-            */
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK) {
-            if (data.getData() != null) {
-                // updating model
-                Sound sound = new Sound(data.getData());
-                sounds.add(sound);
-            } else {
-                Toast.makeText(this, "File loading error", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            Toast.makeText(this, "No valid activity result", Toast.LENGTH_LONG).show();
-        }
-    }
 }

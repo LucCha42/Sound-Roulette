@@ -1,7 +1,9 @@
 package fr.chardonnet_rakotoanosy.soundroulette.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -13,29 +15,31 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import fr.chardonnet_rakotoanosy.soundroulette.SoundAdapter;
 import fr.chardonnet_rakotoanosy.soundroulette.R;
 import fr.chardonnet_rakotoanosy.soundroulette.Sound;
+import fr.chardonnet_rakotoanosy.soundroulette.SoundAdapter;
 import fr.chardonnet_rakotoanosy.soundroulette.SoundNameDialog;
+import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
 
 public class BoardActivity extends AppCompatActivity implements SoundNameDialog.SoundNameDialogListener {
 
     public final static int REQUEST_LOAD_SOUND = 1;
 
-    private ArrayList<Sound> sounds = new ArrayList<>();
+    //private ArrayList<Sound> sounds;
     private RecyclerView recyclerView;
     private SoundAdapter soundAdapter;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_activity);
 
-        buildRecyclerView();
+        this.context = getApplicationContext();
 
-        //TODO loading model from files
-        //sounds = (ArrayList<Sound>) getIntent().getSerializableExtra("Sounds");
+        buildRecyclerView();
     }
 
     @Override
@@ -70,14 +74,22 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // add new sound
         if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK) {
             if (data.getData() != null) {
-                Sound sound = new Sound(sounds.size(), "", data.getData());
+
+                // getting id of the new sound
+                int nextId = SoundJsonFileStorage.get(context).getNextId();
+                Sound sound = new Sound(nextId, "unnamed", data.getData());
+
                 // sound naming dialog
                 openDialog(sound);
+
                 //updating model and view
-                sounds.add(sound);
-                soundAdapter.notifyItemInserted(sounds.indexOf(sound));
+                SoundJsonFileStorage.get(context).insert(sound);
+                soundAdapter.notifyDataSetChanged(); //TODO change to notifyItemInserted
+
             } else {
                 Toast.makeText(this, "File loading error", Toast.LENGTH_LONG).show();
             }
@@ -89,19 +101,22 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     @Override
     public void rename(Sound sound, String soundName) {
         sound.setName(soundName);
-        soundAdapter.notifyItemChanged(sounds.indexOf(sound));
+        SoundJsonFileStorage.get(context).update(sound.getId(), sound);
+        soundAdapter.notifyDataSetChanged(); //TODO change to notifyItemChanged
+        //soundAdapter.notifyItemChanged(sounds.indexOf(sound));
     }
 
     public void buildRecyclerView() {
         recyclerView = findViewById(R.id.sound_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        soundAdapter = new SoundAdapter(sounds);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        soundAdapter = new SoundAdapter(context);
         recyclerView.setAdapter(soundAdapter);
         soundAdapter.setOnItemClickListener(new SoundAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int index) {
                 // open dialog to rename sound
-                openDialog(sounds.get(index));
+                Log.d("FINDIDSOUND", Integer.toString(index));
+                openDialog(SoundJsonFileStorage.get(context).find(index));
             }
         });
     }

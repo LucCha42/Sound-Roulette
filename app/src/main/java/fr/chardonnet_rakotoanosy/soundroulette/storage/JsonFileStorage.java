@@ -39,7 +39,7 @@ public abstract class JsonFileStorage<T> extends FileStorage<T> {
         json = new JSONObject();
         try {
             json.put(LIST, new JSONObject());
-            json.put(NEXT_ID, 1);
+            json.put(NEXT_ID, 0);
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -132,5 +132,9 @@ public abstract class JsonFileStorage<T> extends FileStorage<T> {
         }
         write();
         return res;
+    }
+
+    public int getNextId() {
+        return json.optInt(NEXT_ID);
     }
 }

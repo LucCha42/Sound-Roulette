@@ -19,6 +19,7 @@ public abstract class FileStorage<T> implements Storage<T> {
     public FileStorage(Context context, String name, String extension) {
         this.context = context;
         this.fileName = PREFIX + name + "." + extension;
+        read();
     }
 
     protected abstract void initialize(String s);

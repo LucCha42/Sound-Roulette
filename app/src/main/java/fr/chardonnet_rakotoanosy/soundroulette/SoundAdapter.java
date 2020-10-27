@@ -1,5 +1,7 @@
 package fr.chardonnet_rakotoanosy.soundroulette;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
 
 public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder> {
 
-    private ArrayList<Sound> sounds;
+    //private ArrayList<Sound> sounds;
+    private final Context context;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -48,8 +51,8 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
         }
     }
 
-    public SoundAdapter(ArrayList<Sound> sounds) {
-        this.sounds = sounds;
+    public SoundAdapter(Context context) {
+        this.context = context;
     }
 
     @NonNull
@@ -60,12 +63,13 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SoundHolder holder, int position) {
-        holder.name.setText(sounds.get(position).getName());
+    public void onBindViewHolder(@NonNull SoundHolder holder, int id) {
+        holder.name.setText(SoundJsonFileStorage.get(context).find(id).getName());
+
     }
 
     @Override
     public int getItemCount() {
-        return sounds.size();
+        return SoundJsonFileStorage.get(context).size();
     }
 }
