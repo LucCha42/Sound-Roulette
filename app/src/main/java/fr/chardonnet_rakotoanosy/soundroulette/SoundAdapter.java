@@ -1,7 +1,6 @@
 package fr.chardonnet_rakotoanosy.soundroulette;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
 
 public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder> {
 
-    //private ArrayList<Sound> sounds;
     private final Context context;
     private OnItemClickListener listener;
 

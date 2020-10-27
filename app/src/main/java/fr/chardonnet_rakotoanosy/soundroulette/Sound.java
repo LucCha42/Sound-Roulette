@@ -6,18 +6,22 @@ import java.io.Serializable;
 
 public class Sound implements Serializable {
 
-    private int id;
+    private final int ID;
+    private final Uri URI;
     private String name;
-    private Uri uri;
 
-    public Sound(int id, String name, Uri uri) {
-        this.id = id;
+    public Sound(int ID, Uri URI, String name) {
+        this.ID = ID;
+        this.URI = URI;
         this.name = name;
-        this.uri = uri;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
+    }
+
+    public Uri getURI() {
+        return URI;
     }
 
     public String getName() {
@@ -26,9 +30,5 @@ public class Sound implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Uri getUri() {
-        return uri;
     }
 }

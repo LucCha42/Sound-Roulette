@@ -33,8 +33,8 @@ public class SoundJsonFileStorage extends JsonFileStorage<Sound> {
         try {
             return new Sound(
                     jsonObject.getInt(SOUND_ID),
-                    jsonObject.getString(SOUND_NAME),
-                    Uri.parse(jsonObject.getString(SOUND_URI))
+                    Uri.parse(jsonObject.getString(SOUND_URI)),
+                    jsonObject.getString(SOUND_NAME)
             );
         }
         catch (JSONException e) {
@@ -49,7 +49,7 @@ public class SoundJsonFileStorage extends JsonFileStorage<Sound> {
         try {
             json.put(SOUND_ID, id);
             json.put(SOUND_NAME, object.getName());
-            json.put(SOUND_URI, object.getUri());
+            json.put(SOUND_URI, object.getURI());
         }
         catch (JSONException e) {
             e.printStackTrace();

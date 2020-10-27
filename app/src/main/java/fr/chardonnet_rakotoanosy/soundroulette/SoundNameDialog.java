@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 public class SoundNameDialog extends AppCompatDialogFragment {
 
     private EditText editSoundName; // name input
-    private Sound sound; // sound to change name
+    private final Sound sound; // sound to rename
     private SoundNameDialogListener listener;
 
     public SoundNameDialog(Sound sound) {
@@ -46,7 +46,7 @@ public class SoundNameDialog extends AppCompatDialogFragment {
                 });
 
         editSoundName = view.findViewById(R.id.edit_sound_name);
-        if(sound.getName()!="") {
+        if(!sound.getName().equals("")) {
             editSoundName.setText(sound.getName());
         }
         return builder.create();

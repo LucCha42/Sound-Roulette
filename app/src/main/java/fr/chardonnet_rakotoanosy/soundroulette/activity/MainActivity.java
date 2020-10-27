@@ -10,16 +10,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
 
 import fr.chardonnet_rakotoanosy.soundroulette.R;
 import fr.chardonnet_rakotoanosy.soundroulette.Sound;
-import fr.chardonnet_rakotoanosy.soundroulette.activity.BoardActivity;
 import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     //private final ArrayList<Sound> sounds = new ArrayList<>();
     private Context context;
     private final MediaPlayer mp = new MediaPlayer();
-
-    public final static int REQUEST_LOAD_SOUND = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     // play the sound
                     try {
                         mp.reset();
-                        mp.setDataSource(getApplicationContext(), sound.getUri());
+                        mp.setDataSource(getApplicationContext(), sound.getURI());
                         mp.prepare();
                         mp.start();
                     } catch (IOException e) {
@@ -77,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.goto_board_button:
                 Intent gotoIntent = new Intent(getApplicationContext(), BoardActivity.class);
-                //gotoIntent.putExtra("Sounds", sounds);
                 startActivity(gotoIntent);
                 return true;
 

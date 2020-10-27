@@ -3,7 +3,6 @@ package fr.chardonnet_rakotoanosy.soundroulette.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -13,9 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.chardonnet_rakotoanosy.soundroulette.R;
 import fr.chardonnet_rakotoanosy.soundroulette.Sound;
@@ -27,8 +23,6 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
     public final static int REQUEST_LOAD_SOUND = 1;
 
-    //private ArrayList<Sound> sounds;
-    private RecyclerView recyclerView;
     private SoundAdapter soundAdapter;
     private Context context;
 
@@ -76,19 +70,19 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         super.onActivityResult(requestCode, resultCode, data);
 
         // add new sound
-        if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK && data != null) {
             if (data.getData() != null) {
 
                 // getting id of the new sound
                 int nextId = SoundJsonFileStorage.get(context).getNextId();
-                Sound sound = new Sound(nextId, "unnamed", data.getData());
+                Sound sound = new Sound(nextId, data.getData(), "unnamed");
 
                 // sound naming dialog
                 openDialog(sound);
 
                 //updating model and view
                 SoundJsonFileStorage.get(context).insert(sound);
-                soundAdapter.notifyDataSetChanged(); //TODO change to notifyItemInserted
+                soundAdapter.notifyItemInserted(sound.getID());
 
             } else {
                 Toast.makeText(this, "File loading error", Toast.LENGTH_LONG).show();
@@ -101,13 +95,12 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     @Override
     public void rename(Sound sound, String soundName) {
         sound.setName(soundName);
-        SoundJsonFileStorage.get(context).update(sound.getId(), sound);
-        soundAdapter.notifyDataSetChanged(); //TODO change to notifyItemChanged
-        //soundAdapter.notifyItemChanged(sounds.indexOf(sound));
+        SoundJsonFileStorage.get(context).update(sound.getID(), sound);
+        soundAdapter.notifyItemChanged(sound.getID());
     }
 
     public void buildRecyclerView() {
-        recyclerView = findViewById(R.id.sound_list);
+        RecyclerView recyclerView = findViewById(R.id.sound_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         soundAdapter = new SoundAdapter(context);
         recyclerView.setAdapter(soundAdapter);
@@ -115,7 +108,6 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
             @Override
             public void onItemClick(int index) {
                 // open dialog to rename sound
-                Log.d("FINDIDSOUND", Integer.toString(index));
                 openDialog(SoundJsonFileStorage.get(context).find(index));
             }
         });
