@@ -49,7 +49,7 @@ public class SoundJsonFileStorage extends JsonFileStorage<Sound> {
         try {
             json.put(SOUND_ID, id);
             json.put(SOUND_NAME, object.getName());
-            json.put(SOUND_URI, object.getURI());
+            json.put(SOUND_URI, object.getUri());
         }
         catch (JSONException e) {
             e.printStackTrace();

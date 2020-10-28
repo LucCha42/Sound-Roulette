@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,36 +18,42 @@ import java.util.Random;
 
 import fr.chardonnet_rakotoanosy.soundroulette.R;
 import fr.chardonnet_rakotoanosy.soundroulette.Sound;
+import fr.chardonnet_rakotoanosy.soundroulette.UriUtility;
 import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private final ArrayList<Sound> sounds = new ArrayList<>();
-    private Context context;
-    private final MediaPlayer mp = new MediaPlayer();
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        context = getApplicationContext();
+        mp = new MediaPlayer();
 
         // random button listener
-        findViewById(R.id.RandomButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.random_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SoundJsonFileStorage.get(context).size() > 0) {
+
+                // getting name displayed in view
+                TextView nameView = findViewById(R.id.sound_name_playing);
+
+                if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
 
                     // getting random sound
                     Random r = new Random();
-                    int randIndex = r.nextInt(SoundJsonFileStorage.get(context).size());
-                    Sound sound = SoundJsonFileStorage.get(context).find(randIndex);
+                    int randIndex = r.nextInt(SoundJsonFileStorage.get(getApplicationContext()).size());
+                    Sound sound = SoundJsonFileStorage.get(getApplicationContext()).find(randIndex);
+
+                    // setting name in view
+                    nameView.setText(sound.getName());
 
                     // play the sound
                     try {
                         mp.reset();
-                        mp.setDataSource(getApplicationContext(), sound.getURI());
+                        mp.setDataSource(getApplicationContext(), sound.getUri());
                         mp.prepare();
                         mp.start();
                     } catch (IOException e) {
@@ -54,10 +61,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Sound playing error", Toast.LENGTH_LONG).show();
                     }
                 } else {
+                    nameView.setText("");
                     Toast.makeText(getApplicationContext(), "No sound registered", Toast.LENGTH_LONG).show();
                 }
             }
         });
+
     }
 
     @Override
