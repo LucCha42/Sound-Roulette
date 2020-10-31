@@ -1,4 +1,4 @@
-package fr.chardonnet_rakotoanosy.soundroulette;
+package fr.chardonnet.soundroulette;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
+import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
 public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder> {
 

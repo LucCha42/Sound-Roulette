@@ -1,6 +1,5 @@
-package fr.chardonnet_rakotoanosy.soundroulette.activity;
+package fr.chardonnet.soundroulette.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,12 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import fr.chardonnet_rakotoanosy.soundroulette.R;
-import fr.chardonnet_rakotoanosy.soundroulette.Sound;
-import fr.chardonnet_rakotoanosy.soundroulette.SoundAdapter;
-import fr.chardonnet_rakotoanosy.soundroulette.SoundNameDialog;
-import fr.chardonnet_rakotoanosy.soundroulette.UriUtility;
-import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
+import fr.chardonnet.soundroulette.R;
+import fr.chardonnet.soundroulette.Sound;
+import fr.chardonnet.soundroulette.SoundAdapter;
+import fr.chardonnet.soundroulette.SoundNameDialog;
+import fr.chardonnet.soundroulette.UriUtility;
+import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
 public class BoardActivity extends AppCompatActivity implements SoundNameDialog.SoundNameDialogListener {
 
@@ -74,9 +73,8 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                 // getting id of the new sound
                 int nextId = SoundJsonFileStorage.get(this).getNextId();
 
-                // getting file name of the new sound
-                UriUtility uriU = new UriUtility();
-                String defaultName = uriU.getFileName(data.getData(), getContentResolver());
+                // getting file name and path of the new sound
+                String defaultName = UriUtility.getFileName(data.getData(), getContentResolver());
 
                 // creating the new sound
                 Sound sound = new Sound(nextId, data.getData(), defaultName);

@@ -1,4 +1,4 @@
-package fr.chardonnet_rakotoanosy.soundroulette.storage;
+package fr.chardonnet.soundroulette.storage;
 
 import android.content.Context;
 import android.net.Uri;
@@ -6,14 +6,14 @@ import android.net.Uri;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import fr.chardonnet_rakotoanosy.soundroulette.Sound;
+import fr.chardonnet.soundroulette.Sound;
 
 public class SoundJsonFileStorage extends JsonFileStorage<Sound> {
 
     private static final String NAME = "sound";
     private static final String SOUND_ID = "id";
     private static final String SOUND_NAME = "name";
-    private static final String SOUND_URI = "uri";
+    private static final String SOUND_URI = "path";
 
     private static SoundJsonFileStorage storage;
 
