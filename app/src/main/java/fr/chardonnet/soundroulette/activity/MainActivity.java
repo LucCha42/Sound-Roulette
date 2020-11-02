@@ -2,7 +2,6 @@ package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Random;
 
 import fr.chardonnet.soundroulette.R;
@@ -88,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mp.stop();
     }
 
 }

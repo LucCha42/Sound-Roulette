@@ -36,6 +36,8 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         buildRecyclerView();
     }
 
+    // ---- Menu action bar
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.board_menu, menu);
@@ -68,7 +70,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // add new sound
+        // adding a new sound
         if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK && data != null) {
             if (data.getData() != null) {
 
@@ -97,6 +99,11 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         }
     }
 
+    public void openDialog(Sound sound) {
+        SoundNameDialog dialog = new SoundNameDialog(sound);
+        dialog.show(getSupportFragmentManager(), "soundNameDialog");
+    }
+
     @Override
     public void rename(Sound sound, String soundName) {
         sound.setName(soundName);
@@ -104,6 +111,8 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         soundAdapter.update();
         soundAdapter.notifyDataSetChanged();
     }
+
+    // ---- Recycler View
 
     public void buildRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.sound_list);
@@ -122,12 +131,8 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         });
     }
 
-    public void openDialog(Sound sound) {
-        SoundNameDialog dialog = new SoundNameDialog(sound);
-        dialog.show(getSupportFragmentManager(), "soundNameDialog");
-    }
+    // ---- Contextual menu
 
-    // Contextual menu
     private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
