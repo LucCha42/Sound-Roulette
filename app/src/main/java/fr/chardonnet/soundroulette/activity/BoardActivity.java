@@ -2,7 +2,6 @@ package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -103,7 +102,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         sound.setName(soundName);
         SoundJsonFileStorage.get(this).update(sound.getId(), sound);
         soundAdapter.update();
-        soundAdapter.notifyItemChanged(sound.getId());
+        soundAdapter.notifyDataSetChanged();
     }
 
     public void buildRecyclerView() {
@@ -148,7 +147,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
                 // open dialog to rename sound
                 case R.id.rename_button:
-                    openDialog(SoundJsonFileStorage.get(getApplicationContext()).find(itemSelected));
+                    openDialog(soundAdapter.getSounds().get(itemSelected));
                     mode.finish();
                     return true;
 

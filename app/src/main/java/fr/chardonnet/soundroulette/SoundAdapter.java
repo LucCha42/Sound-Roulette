@@ -16,7 +16,7 @@ import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder> {
 
     private OnItemClickListener listener;
-    private Context context;
+    private final Context context;
     // here we use an arrayList to dissociate the adapter model from stored files.
     private ArrayList<Sound> sounds;
 
