@@ -2,7 +2,9 @@ package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 import fr.chardonnet.soundroulette.R;
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     // getting random sound
                     Random r = new Random();
                     int randIndex = r.nextInt(SoundJsonFileStorage.get(getApplicationContext()).size());
-                    Sound sound = SoundJsonFileStorage.get(getApplicationContext()).find(randIndex);
+                    Sound sound = SoundJsonFileStorage.get(getApplicationContext()).findAll().get(randIndex);
 
                     // setting name in view
                     nameView.setText(sound.getName());

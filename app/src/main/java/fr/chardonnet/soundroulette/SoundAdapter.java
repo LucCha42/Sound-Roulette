@@ -9,12 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
 public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder> {
 
-    private final Context context;
     private OnItemClickListener listener;
+    private Context context;
+    // here we use an arrayList to dissociate the adapter model from stored files.
+    private ArrayList<Sound> sounds;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -51,6 +55,18 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
 
     public SoundAdapter(Context context) {
         this.context = context;
+        this.sounds = (ArrayList<Sound>) SoundJsonFileStorage.get(context).findAll();
+    }
+
+    public ArrayList<Sound> getSounds() {
+        return sounds;
+    }
+
+    /**
+     * Is called to refresh the adapter arrayList form files.
+     */
+    public void update() {
+        this.sounds = (ArrayList<Sound>) SoundJsonFileStorage.get(context).findAll();
     }
 
     @NonNull
@@ -61,13 +77,12 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SoundHolder holder, int id) {
-        holder.name.setText(SoundJsonFileStorage.get(context).find(id).getName());
-
+    public void onBindViewHolder(@NonNull SoundHolder holder, int index) {
+        holder.name.setText(sounds.get(index).getName());
     }
 
     @Override
     public int getItemCount() {
-        return SoundJsonFileStorage.get(context).size();
+        return sounds.size();
     }
 }

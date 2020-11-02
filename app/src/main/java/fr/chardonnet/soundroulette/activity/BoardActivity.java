@@ -2,6 +2,7 @@ package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -86,13 +87,14 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
                 //updating model and view
                 SoundJsonFileStorage.get(this).insert(sound);
+                soundAdapter.update();
                 soundAdapter.notifyItemInserted(sound.getId());
 
             } else {
                 Toast.makeText(this, "File loading error", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(this, "No valid activity result", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No sound selected", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -100,6 +102,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     public void rename(Sound sound, String soundName) {
         sound.setName(soundName);
         SoundJsonFileStorage.get(this).update(sound.getId(), sound);
+        soundAdapter.update();
         soundAdapter.notifyItemChanged(sound.getId());
     }
 
@@ -143,15 +146,21 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
 
+                // open dialog to rename sound
                 case R.id.rename_button:
-                    Toast.makeText(getApplicationContext(), Integer.toString(itemSelected), Toast.LENGTH_SHORT).show();
-                    // open dialog to rename sound
                     openDialog(SoundJsonFileStorage.get(getApplicationContext()).find(itemSelected));
                     mode.finish();
                     return true;
 
+                // delete sound
                 case R.id.delete_buton:
-                    //TODO delete sound
+                    // getting id of sound to delete
+                    int soundId = soundAdapter.getSounds().get(itemSelected).getId();
+                    // remove sound from file
+                    SoundJsonFileStorage.get(getApplicationContext()).delete(soundId);
+                    // refreshing the view
+                    soundAdapter.update();
+                    soundAdapter.notifyItemRemoved(itemSelected);
                     mode.finish();
                     return true;
 

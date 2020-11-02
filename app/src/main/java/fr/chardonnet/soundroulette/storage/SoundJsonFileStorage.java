@@ -13,7 +13,7 @@ public class SoundJsonFileStorage extends JsonFileStorage<Sound> {
     private static final String NAME = "sound";
     private static final String SOUND_ID = "id";
     private static final String SOUND_NAME = "name";
-    private static final String SOUND_URI = "path";
+    private static final String SOUND_URI = "uri";
 
     private static SoundJsonFileStorage storage;
 
