@@ -1,16 +1,19 @@
 package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -134,10 +137,24 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
             }
 
             @Override
-            public void onItemClick(int index) {
+            public void onItemClick(int index, ImageView icon) {
                 itemSelected = index;
                 Sound sound = soundAdapter.getSounds().get(itemSelected);
-                SoundUtility.playSound(getApplicationContext(), mp, sound);
+
+                if (mp.isPlaying()) {
+                    // stop the sound
+                    mp.pause();
+                    // set the icon of the item
+                    Drawable d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_play_arrow_24);
+                    icon.setImageDrawable(d);
+                } else {
+                    // play the selected sound
+                    SoundUtility.playSound(getApplicationContext(), mp, sound);
+                    // set the icon of the item
+                    Drawable d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_stop_24);
+                    icon.setImageDrawable(d);
+                }
+
             }
         });
     }

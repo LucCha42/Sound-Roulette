@@ -1,9 +1,11 @@
 package fr.chardonnet.soundroulette;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +24,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
 
     public interface OnItemClickListener {
         void onLongItemClick(int index); // trigger the contextual menu
-        void onItemClick(int index); // trigger the playing of the corresponding sound
+        void onItemClick(int index, ImageView icon); // trigger the playing of the corresponding sound
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -32,11 +34,13 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
     public static class SoundHolder extends RecyclerView.ViewHolder {
 
         public TextView name;
+        public ImageView icon;
 
-        public SoundHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public SoundHolder(@NonNull final View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             name = itemView.findViewById(R.id.sound_name);
+            icon = itemView.findViewById(R.id.play_img);
 
             // contextual menu listener
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -60,7 +64,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
+                            listener.onItemClick(position, icon);
                         }
                     }
                 }

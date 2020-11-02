@@ -24,10 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer mp;
 
-    public MediaPlayer getMp() {
-        return mp;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
