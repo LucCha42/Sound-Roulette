@@ -21,7 +21,8 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
     private ArrayList<Sound> sounds;
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onLongItemClick(int index); // trigger the contextual menu
+        void onItemClick(int index); // trigger the playing of the corresponding sound
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -37,17 +38,31 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
 
             name = itemView.findViewById(R.id.sound_name);
 
+            // contextual menu listener
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
+                            listener.onLongItemClick(position);
                             return true;
                         }
                     }
                     return false;
+                }
+            });
+
+            // sound playing listener
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
                 }
             });
         }
@@ -63,7 +78,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
     }
 
     /**
-     * Is called to refresh the adapter arrayList form files.
+     * Is called to refresh the adapter arrayList from files.
      */
     public void update() {
         this.sounds = (ArrayList<Sound>) SoundJsonFileStorage.get(context).findAll();

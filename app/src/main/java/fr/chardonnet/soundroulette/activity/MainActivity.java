@@ -3,7 +3,6 @@ package fr.chardonnet.soundroulette.activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,11 +17,16 @@ import java.util.Random;
 
 import fr.chardonnet.soundroulette.R;
 import fr.chardonnet.soundroulette.Sound;
+import fr.chardonnet.soundroulette.SoundUtility;
 import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
 public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer mp;
+
+    public MediaPlayer getMp() {
+        return mp;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +54,8 @@ public class MainActivity extends AppCompatActivity {
                     nameView.setText(sound.getName());
 
                     // play the sound
-                    try {
-                        mp.reset();
-                        mp.setDataSource(getApplicationContext(), sound.getUri());
-                        mp.prepare();
-                        mp.start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "Sound playing error", Toast.LENGTH_LONG).show();
-                    }
+                    SoundUtility.playSound(getApplicationContext(), mp, sound);
+
                 } else {
                     nameView.setText("");
                     Toast.makeText(getApplicationContext(), "No sound registered", Toast.LENGTH_LONG).show();

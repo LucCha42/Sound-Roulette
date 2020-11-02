@@ -1,6 +1,7 @@
 package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import fr.chardonnet.soundroulette.R;
 import fr.chardonnet.soundroulette.Sound;
 import fr.chardonnet.soundroulette.SoundAdapter;
 import fr.chardonnet.soundroulette.SoundNameDialog;
+import fr.chardonnet.soundroulette.SoundUtility;
 import fr.chardonnet.soundroulette.UriUtility;
 import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
@@ -26,6 +28,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
     private SoundAdapter soundAdapter;
     private ActionMode actionMode;
+    private MediaPlayer mp;
     private int itemSelected;
 
     @Override
@@ -33,6 +36,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_activity);
 
+        mp = new MediaPlayer();
         buildRecyclerView();
     }
 
@@ -121,19 +125,26 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         recyclerView.setAdapter(soundAdapter);
         soundAdapter.setOnItemClickListener(new SoundAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int index) {
+            public void onLongItemClick(int index) {
                 itemSelected = index;
                 // open contextual menu to rename or delete a sound
                 if (actionMode == null) {
                     actionMode = startSupportActionMode(actionModeCallback);
                 }
             }
+
+            @Override
+            public void onItemClick(int index) {
+                itemSelected = index;
+                Sound sound = soundAdapter.getSounds().get(itemSelected);
+                SoundUtility.playSound(getApplicationContext(), mp, sound);
+            }
         });
     }
 
     // ---- Contextual menu
 
-    private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
+    private final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.edit_menu, menu);
@@ -178,5 +189,11 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
             actionMode = null;
         }
     };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mp.stop();
+    }
 
 }
