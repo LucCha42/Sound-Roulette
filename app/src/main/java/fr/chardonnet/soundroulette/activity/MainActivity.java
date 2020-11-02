@@ -12,12 +12,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 import java.util.Random;
 
 import fr.chardonnet.soundroulette.R;
 import fr.chardonnet.soundroulette.Sound;
-import fr.chardonnet.soundroulette.SoundUtility;
+import fr.chardonnet.soundroulette.Utils.SoundUtility;
 import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,7 +1,6 @@
 package fr.chardonnet.soundroulette;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,10 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
     private ArrayList<Sound> sounds;
 
     public interface OnItemClickListener {
-        void onLongItemClick(int index); // trigger the contextual menu
-        void onItemClick(int index, ImageView icon); // trigger the playing of the corresponding sound
+        // trigger the contextual menu
+        void onItemClick(int index, ImageView icon);
+        // trigger the playing of the corresponding sound
+        void onLongItemClick(int index);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

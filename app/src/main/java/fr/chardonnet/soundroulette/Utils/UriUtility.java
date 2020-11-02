@@ -1,4 +1,4 @@
-package fr.chardonnet.soundroulette;
+package fr.chardonnet.soundroulette.Utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -37,21 +37,4 @@ public class UriUtility {
         return result;
     }
 
-    // DO NOT WORK
-    @NonNull
-    public static String getPath(@NonNull Uri uri) {
-        File file = new File(uri.getPath());
-        final String[] split = file.getPath().split(":");
-        return split[0];
-    }
-
-    // DO NOT WORK
-    public static Uri getUri(Context context, String path) {
-        String externalDirectory =  Environment.getExternalStorageDirectory().getPath();
-        //String externalDirectory = context.getExternalFilesDir(null).toString();
-        if (!path.startsWith(externalDirectory)) {
-            path = externalDirectory + path;
-        }
-        return Uri.parse(path);
-    }
 }

@@ -21,8 +21,8 @@ import fr.chardonnet.soundroulette.R;
 import fr.chardonnet.soundroulette.Sound;
 import fr.chardonnet.soundroulette.SoundAdapter;
 import fr.chardonnet.soundroulette.SoundNameDialog;
-import fr.chardonnet.soundroulette.SoundUtility;
-import fr.chardonnet.soundroulette.UriUtility;
+import fr.chardonnet.soundroulette.Utils.SoundUtility;
+import fr.chardonnet.soundroulette.Utils.UriUtility;
 import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
 public class BoardActivity extends AppCompatActivity implements SoundNameDialog.SoundNameDialogListener {
@@ -154,7 +154,6 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                     Drawable d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_stop_24);
                     icon.setImageDrawable(d);
                 }
-
             }
         });
     }
