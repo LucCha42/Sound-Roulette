@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.OpenableColumns;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 

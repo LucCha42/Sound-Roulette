@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,8 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     public final static int REQUEST_LOAD_SOUND = 1;
 
     private SoundAdapter soundAdapter;
+    private ActionMode actionMode;
+    private int itemSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +111,11 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         soundAdapter.setOnItemClickListener(new SoundAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int index) {
-                // open dialog to rename sound
-                openDialog(SoundJsonFileStorage.get(getApplicationContext()).find(index));
+                itemSelected = index;
+                // open contextual menu to rename or delete a sound
+                if (actionMode == null) {
+                    actionMode = startSupportActionMode(actionModeCallback);
+                }
             }
         });
     }
@@ -118,4 +124,46 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         SoundNameDialog dialog = new SoundNameDialog(sound);
         dialog.show(getSupportFragmentManager(), "soundNameDialog");
     }
+
+    // Contextual menu
+    private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.edit_menu, menu);
+            mode.setTitle("Choose an action");
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+
+                case R.id.rename_button:
+                    Toast.makeText(getApplicationContext(), Integer.toString(itemSelected), Toast.LENGTH_SHORT).show();
+                    // open dialog to rename sound
+                    openDialog(SoundJsonFileStorage.get(getApplicationContext()).find(itemSelected));
+                    mode.finish();
+                    return true;
+
+                case R.id.delete_buton:
+                    //TODO delete sound
+                    mode.finish();
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            actionMode = null;
+        }
+    };
+
 }
