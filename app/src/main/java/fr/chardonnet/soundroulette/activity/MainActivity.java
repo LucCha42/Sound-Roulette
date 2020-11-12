@@ -39,18 +39,22 @@ public class MainActivity extends AppCompatActivity {
                 TextView nameView = findViewById(R.id.sound_name_playing);
 
                 if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
+                        //If the sound is still playing, stop it.
+                    if (mp.isPlaying()) {
+                        // stop the sound
+                        mp.pause();
+                    }else {
+                        // getting random sound
+                        Random r = new Random();
+                        int randIndex = r.nextInt(SoundJsonFileStorage.get(getApplicationContext()).size());
+                        Sound sound = SoundJsonFileStorage.get(getApplicationContext()).findAll().get(randIndex);
 
-                    // getting random sound
-                    Random r = new Random();
-                    int randIndex = r.nextInt(SoundJsonFileStorage.get(getApplicationContext()).size());
-                    Sound sound = SoundJsonFileStorage.get(getApplicationContext()).findAll().get(randIndex);
+                        // setting name in view
+                        nameView.setText(sound.getName());
 
-                    // setting name in view
-                    nameView.setText(sound.getName());
-
-                    // play the sound
-                    SoundUtility.playSound(getApplicationContext(), mp, sound);
-
+                        // play the sound
+                        SoundUtility.playSound(getApplicationContext(), mp, sound);
+                    }
                 } else {
                     nameView.setText("");
                     Toast.makeText(getApplicationContext(), "No sound registered", Toast.LENGTH_LONG).show();
