@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 TextView nameView = findViewById(R.id.sound_name_playing);
                 //getting image displayed in view
                 Button buttonView = findViewById(R.id.random_button);
-
                 Drawable d;
+
                 if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
                         //If the sound is still playing, stop it.
                     if (mp.isPlaying()) {
