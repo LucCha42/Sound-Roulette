@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // getting name displayed in view
+                // getting name to displayed it in view
                 TextView nameView = findViewById(R.id.sound_name_playing);
 
                 if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
@@ -68,21 +68,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.goto_board_button:
-                Intent gotoIntent = new Intent(getApplicationContext(), BoardActivity.class);
-                startActivity(gotoIntent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.goto_board_button) {
+            Intent gotoIntent = new Intent(getApplicationContext(), BoardActivity.class);
+            startActivity(gotoIntent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        // killing the current media player every time
+        // we change activity or application
         mp.stop();
     }
 

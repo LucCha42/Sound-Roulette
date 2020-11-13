@@ -4,13 +4,15 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 
 import fr.chardonnet.soundroulette.Sound;
 
 public class SoundUtility {
 
-    public static void playSound(Context context, MediaPlayer mp, Sound sound) {
+    public static void playSound(@NonNull Context context, @NonNull MediaPlayer mp, @NonNull Sound sound) {
         try {
             mp.reset();
             mp.setDataSource(context, sound.getUri());

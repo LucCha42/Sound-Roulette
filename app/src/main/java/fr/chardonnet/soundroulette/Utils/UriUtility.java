@@ -1,15 +1,11 @@
 package fr.chardonnet.soundroulette.Utils;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
-
-import java.io.File;
 
 public class UriUtility {
 
@@ -24,7 +20,6 @@ public class UriUtility {
                 }
             }
         }
-
         if (result == null) {
             result = uri.getPath();
             int cut = result.lastIndexOf('/');
@@ -33,7 +28,6 @@ public class UriUtility {
                 result = result.substring(cut + 1);
             }
         }
-
         return result;
     }
 

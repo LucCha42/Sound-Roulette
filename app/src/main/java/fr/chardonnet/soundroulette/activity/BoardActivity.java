@@ -55,11 +55,13 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
 
+            // go to main activity
             case R.id.goto_main_button:
                 Intent gotoIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(gotoIntent);
                 return true;
 
+            // open device's file explorer to choose a sound to add
             case R.id.add_button:
                 Intent addAudioIntent = new Intent();
                 addAudioIntent.setType("audio/*");
@@ -77,7 +79,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // adding a new sound
+        // adding a new sound after choosing a file
         if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK && data != null) {
             if (data.getData() != null) {
 
@@ -106,6 +108,10 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         }
     }
 
+    /**
+     * Open the renaming dialog.
+     * @param sound     sound to rename
+     */
     public void openDialog(Sound sound) {
         SoundNameDialog dialog = new SoundNameDialog(sound);
         dialog.show(getSupportFragmentManager(), "soundNameDialog");
@@ -121,6 +127,13 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
     // ---- Recycler View
 
+    /**
+     * Builds the recycler view and its events.
+     * Contains the list of sound added by the user.
+     * A click on an item play the corresponding sound.
+     * A long click on an item open a contextual menu
+     * to choose an action to do on it.
+     */
     public void buildRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.sound_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -209,6 +222,8 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     @Override
     protected void onPause() {
         super.onPause();
+        // killing the current media player every time
+        // we change activity or application
         mp.stop();
     }
 

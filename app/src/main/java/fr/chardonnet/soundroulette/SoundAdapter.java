@@ -28,15 +28,11 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
         void onLongItemClick(int index);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
     public static class SoundHolder extends RecyclerView.ViewHolder {
 
         public TextView name;
-        public ImageView icon;
 
+        public ImageView icon;
         public SoundHolder(@NonNull final View itemView, final OnItemClickListener listener) {
             super(itemView);
 
@@ -71,6 +67,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
                 }
             });
         }
+
     }
 
     public SoundAdapter(Context context) {
@@ -80,6 +77,10 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
 
     public ArrayList<Sound> getSounds() {
         return sounds;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     /**
