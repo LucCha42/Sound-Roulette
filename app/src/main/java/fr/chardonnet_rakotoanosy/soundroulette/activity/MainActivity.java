@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // getting name displayed in view
                 TextView nameView = findViewById(R.id.sound_name_playing);
+
                 //getting image displayed in view
                 Button buttonView = findViewById(R.id.random_button);
                 Drawable d;
@@ -47,10 +48,11 @@ public class MainActivity extends AppCompatActivity {
                 if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
                         //If the sound is still playing, stop it.
                     if (mp.isPlaying()) {
+
                         // setting image on play
                         d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_play_arrow_24);
                         buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
-                        //playView.setImageDrawable(d);
+
                         // stop the sound
                         mp.pause();
 
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         // setting image on stop
                         d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_stop_24);
                         buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
-                        //playView.setImageDrawable(d);
+
                         // play the sound
                         SoundUtility.playSound(getApplicationContext(), mp, sound);
                     }
@@ -87,14 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.goto_board_button:
-                Intent gotoIntent = new Intent(getApplicationContext(), BoardActivity.class);
-                startActivity(gotoIntent);
-                return true;
-
-            default:
+        if(item.getItemId()==R.id.goto_board_button) {
+            Intent gotoIntent = new Intent(getApplicationContext(), BoardActivity.class);
+            startActivity(gotoIntent);
+            return true;
+        } else {
                 return super.onOptionsItemSelected(item);
         }
     }

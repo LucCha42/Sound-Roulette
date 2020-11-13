@@ -24,6 +24,6 @@
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="12sp"
-        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMaxTextSize="24sp"
         app:autoSizeStepGranularity="2sp"/>
 </LinearLayout>
