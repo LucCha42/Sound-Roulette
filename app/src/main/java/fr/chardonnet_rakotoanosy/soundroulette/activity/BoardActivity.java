@@ -1,8 +1,9 @@
-package fr.chardonnet.soundroulette.activity;
+package fr.chardonnet_rakotoanosy.soundroulette.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,22 +18,45 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import fr.chardonnet.soundroulette.R;
-import fr.chardonnet.soundroulette.Sound;
-import fr.chardonnet.soundroulette.SoundAdapter;
-import fr.chardonnet.soundroulette.SoundNameDialog;
-import fr.chardonnet.soundroulette.Utils.SoundUtility;
-import fr.chardonnet.soundroulette.Utils.UriUtility;
-import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
+import java.util.ArrayList;
+import java.util.List;
 
+import fr.chardonnet_rakotoanosy.soundroulette.R;
+import fr.chardonnet_rakotoanosy.soundroulette.Sound;
+import fr.chardonnet_rakotoanosy.soundroulette.SoundAdapter;
+import fr.chardonnet_rakotoanosy.soundroulette.SoundNameDialog;
+import fr.chardonnet_rakotoanosy.soundroulette.Utils.SoundUtility;
+import fr.chardonnet_rakotoanosy.soundroulette.Utils.UriUtility;
+import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
+
+/**
+ * Board activity
+ */
 public class BoardActivity extends AppCompatActivity implements SoundNameDialog.SoundNameDialogListener {
-
+    /**
+     * Request code for sound loading
+     */
     public final static int REQUEST_LOAD_SOUND = 1;
 
+    /**
+     * Sound adapter
+     */
     private SoundAdapter soundAdapter;
+
+    /**
+     * Action mode
+     */
     private ActionMode actionMode;
+
+    /**
+     * Media player
+     */
     private MediaPlayer mp;
+    /**
+     * Id of the selected item
+     */
     private int itemSelected;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +78,22 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-
+            //Main button
             case R.id.goto_main_button:
                 Intent gotoIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(gotoIntent);
                 return true;
-
+            //Add button
             case R.id.add_button:
+                //intent
                 Intent addAudioIntent = new Intent();
+                //audio
                 addAudioIntent.setType("audio/*");
+                //open document
                 addAudioIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                //openable
                 addAudioIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                //start intent
                 startActivityForResult(addAudioIntent, REQUEST_LOAD_SOUND);
                 return true;
 
@@ -77,18 +106,47 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // adding a new sound
+        // add new sound(s)
         if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK && data != null) {
-            if (data.getData() != null) {
+            // list of all uris
+            List<Uri> uris = new ArrayList<>();
+
+            // multiple selection
+            if (data.getClipData() != null) {
+                // number of items in multiple selection
+                int count = data.getClipData().getItemCount();
+
+                // current item id
+                int currentItem = 0;
+
+                while (currentItem < count) {
+                    // uri temp
+                    Uri tmpUri = data.getClipData().getItemAt(currentItem).getUri();
+
+                    // add uri to list
+                    uris.add(tmpUri);
+
+                    // next id
+                    currentItem ++;
+                }
+            }
+            else if (data.getData() != null) {
+                // single selection
+                uris.add(data.getData());
+            } else {
+                Toast.makeText(this, "File loading error", Toast.LENGTH_LONG).show();
+            }
+
+            for (Uri fileUri : uris) {
 
                 // getting id of the new sound
                 int nextId = SoundJsonFileStorage.get(this).getNextId();
 
                 // getting file name and path of the new sound
-                String defaultName = UriUtility.getFileName(data.getData(), getContentResolver());
+                String defaultName = UriUtility.getFileName(fileUri, getContentResolver());
 
                 // creating the new sound
-                Sound sound = new Sound(nextId, data.getData(), defaultName);
+                Sound sound = new Sound(nextId, fileUri, defaultName);
 
                 // sound naming dialog
                 openDialog(sound);
@@ -98,8 +156,6 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                 soundAdapter.update();
                 soundAdapter.notifyItemInserted(sound.getId());
 
-            } else {
-                Toast.makeText(this, "File loading error", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(this, "No sound selected", Toast.LENGTH_LONG).show();

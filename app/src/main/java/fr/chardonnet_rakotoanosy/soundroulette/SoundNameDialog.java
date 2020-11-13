@@ -1,4 +1,4 @@
-package fr.chardonnet.soundroulette;
+package fr.chardonnet_rakotoanosy.soundroulette;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

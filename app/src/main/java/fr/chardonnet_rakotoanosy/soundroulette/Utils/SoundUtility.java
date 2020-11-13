@@ -1,4 +1,4 @@
-package fr.chardonnet.soundroulette.Utils;
+package fr.chardonnet_rakotoanosy.soundroulette.Utils;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import fr.chardonnet.soundroulette.Sound;
+import fr.chardonnet_rakotoanosy.soundroulette.Sound;
 
 public class SoundUtility {
 

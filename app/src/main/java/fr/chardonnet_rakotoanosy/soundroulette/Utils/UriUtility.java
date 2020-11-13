@@ -1,15 +1,11 @@
-package fr.chardonnet.soundroulette.Utils;
+package fr.chardonnet_rakotoanosy.soundroulette.Utils;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
-
-import java.io.File;
 
 public class UriUtility {
 

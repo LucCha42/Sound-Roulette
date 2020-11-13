@@ -1,4 +1,4 @@
-package fr.chardonnet.soundroulette.storage;
+package fr.chardonnet_rakotoanosy.soundroulette.storage;
 
 import android.content.Context;
 

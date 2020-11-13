@@ -1,4 +1,4 @@
-package fr.chardonnet.soundroulette;
+package fr.chardonnet_rakotoanosy.soundroulette;
 
 import org.junit.Test;
 
