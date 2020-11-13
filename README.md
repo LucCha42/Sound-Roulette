@@ -1,3 +1,3 @@
 # Sound-Roulette
 
-Projet de developpement d'une application de gestion de son pour l'enseignement INFO503
+Projet de développement d'une application de gestion de son en lien avec l'enseignement INFO503
