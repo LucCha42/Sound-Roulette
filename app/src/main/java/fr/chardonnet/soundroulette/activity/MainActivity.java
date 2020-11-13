@@ -1,16 +1,21 @@
 package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.Random;
 
@@ -37,12 +42,20 @@ public class MainActivity extends AppCompatActivity {
 
                 // getting name displayed in view
                 TextView nameView = findViewById(R.id.sound_name_playing);
+                //getting image displayed in view
+                Button buttonView = findViewById(R.id.random_button);
 
+                Drawable d;
                 if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
                         //If the sound is still playing, stop it.
                     if (mp.isPlaying()) {
+                        // setting image on play
+                        d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_play_arrow_24);
+                        buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
+                        //playView.setImageDrawable(d);
                         // stop the sound
                         mp.pause();
+
                     }else {
                         // getting random sound
                         Random r = new Random();
@@ -52,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
                         // setting name in view
                         nameView.setText(sound.getName());
 
+                        // setting image on stop
+                        d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_stop_24);
+                        buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
+                        //playView.setImageDrawable(d);
                         // play the sound
                         SoundUtility.playSound(getApplicationContext(), mp, sound);
                     }
