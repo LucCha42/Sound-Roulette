@@ -34,7 +34,8 @@ public class SoundJsonFileStorage extends JsonFileStorage<Sound> {
             return new Sound(
                     jsonObject.getInt(SOUND_ID),
                     Uri.parse(jsonObject.getString(SOUND_URI)),
-                    jsonObject.getString(SOUND_NAME)
+                    jsonObject.getString(SOUND_NAME),
+                    false
             );
         }
         catch (JSONException e) {

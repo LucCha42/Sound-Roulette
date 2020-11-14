@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.widget.Button;
+
+import android.view.WindowManager;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
                         // setting image on stop
                         d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_stop_24);
                         buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
+
+
+
 
                         // play the sound
                         SoundUtility.playSound(getApplicationContext(), mp, sound);

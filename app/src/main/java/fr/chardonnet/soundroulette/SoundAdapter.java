@@ -1,6 +1,7 @@
 package fr.chardonnet.soundroulette;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -30,14 +32,14 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
 
     public static class SoundHolder extends RecyclerView.ViewHolder {
 
-        public TextView name;
+        public TextView nameView;
+        public ImageView iconView;
 
-        public ImageView icon;
         public SoundHolder(@NonNull final View itemView, final OnItemClickListener listener) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.sound_name);
-            icon = itemView.findViewById(R.id.play_img);
+            nameView = itemView.findViewById(R.id.sound_name);
+            iconView = itemView.findViewById(R.id.play_img);
 
             // contextual menu listener
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -61,7 +63,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position, icon);
+                            listener.onItemClick(position, iconView);
                         }
                     }
                 }
@@ -99,7 +101,17 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
 
     @Override
     public void onBindViewHolder(@NonNull SoundHolder holder, int index) {
-        holder.name.setText(sounds.get(index).getName());
+        // name view
+        holder.nameView.setText(sounds.get(index).getName());
+
+        // icon view
+        Drawable d;
+        if (sounds.get(index).isPlaying()) {
+            d = ContextCompat.getDrawable(context, R.drawable.ic_baseline_stop_24);
+        } else {
+            d = ContextCompat.getDrawable(context, R.drawable.ic_baseline_play_arrow_24);
+        }
+        holder.iconView.setImageDrawable(d);
     }
 
     @Override
