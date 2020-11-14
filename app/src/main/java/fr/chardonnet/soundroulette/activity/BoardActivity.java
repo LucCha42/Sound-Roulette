@@ -70,6 +70,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
             case R.id.add_button:
                 Intent addAudioIntent = new Intent();
                 addAudioIntent.setType("audio/*");
+                addAudioIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 addAudioIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 addAudioIntent.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(addAudioIntent, REQUEST_LOAD_SOUND);
