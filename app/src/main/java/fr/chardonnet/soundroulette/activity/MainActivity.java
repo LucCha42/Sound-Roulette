@@ -53,9 +53,17 @@ public class MainActivity extends AppCompatActivity {
 
                     // Stops the sound when already playing
                     if (mp.isPlaying()) {
+                        // setting no name in view
+                        nameView.setText(null);
+
                         // setting image on play
                         d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_play_arrow_24);
                         buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
+
+                        // setting button color
+                        findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
+
+
 
                         // stop the sound
                         mp.pause();
@@ -68,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
 
                         // setting name in view
                         nameView.setText(sound.getName());
+
+                        // setting button color
+                        findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccentDark, getTheme()));
+
 
                         // setting image on stop
                         d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_stop_24);
