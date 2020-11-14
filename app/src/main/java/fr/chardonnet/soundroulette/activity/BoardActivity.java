@@ -126,7 +126,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
                 // creating the new sound
 
-                Sound sound = new Sound(nextId, fileUri, defaultName);
+                Sound sound = new Sound(nextId, fileUri, defaultName,false);
 
 
                 // sound naming dialog
