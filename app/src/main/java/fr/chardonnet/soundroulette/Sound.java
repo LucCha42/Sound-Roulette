@@ -9,11 +9,13 @@ public class Sound implements Serializable {
     private final int id;
     private final Uri uri;
     private String name;
+    private boolean playing;
 
-    public Sound(int id, Uri uri, String name) {
+    public Sound(int id, Uri uri, String name, boolean playing) {
         this.id = id;
         this.uri = uri;
         this.name = name;
+        this.playing = playing;
     }
 
     public int getId() {
@@ -30,5 +32,13 @@ public class Sound implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 }

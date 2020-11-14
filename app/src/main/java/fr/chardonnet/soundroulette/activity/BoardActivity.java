@@ -90,7 +90,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                 String defaultName = UriUtility.getFileName(data.getData(), getContentResolver());
 
                 // creating the new sound
-                Sound sound = new Sound(nextId, data.getData(), defaultName);
+                Sound sound = new Sound(nextId, data.getData(), defaultName, false);
 
                 // sound naming dialog
                 openDialog(sound);
@@ -130,7 +130,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     /**
      * Builds the recycler view and its events.
      * Contains the list of sound added by the user.
-     * A click on an item play the corresponding sound.
+     * A click on an item plays the corresponding sound.
      * A long click on an item open a contextual menu
      * to choose an action to do on it.
      */
@@ -151,22 +151,22 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
             @Override
             public void onItemClick(int index, ImageView icon) {
-                itemSelected = index;
-                Sound sound = soundAdapter.getSounds().get(itemSelected);
+                Sound sound = soundAdapter.getSounds().get(index);
 
-                if (mp.isPlaying()) {
-                    // stop the sound
+                if (mp.isPlaying() && sound.isPlaying()) {
+                    sound.setPlaying(false);
                     mp.pause();
-                    // set the icon of the item
-                    Drawable d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_play_arrow_24);
-                    icon.setImageDrawable(d);
+
                 } else {
+                    // reset all other items
+                    for (Sound s : soundAdapter.getSounds()) {
+                        s.setPlaying(false);
+                    }
                     // play the selected sound
+                    sound.setPlaying(true);
                     SoundUtility.playSound(getApplicationContext(), mp, sound);
-                    // set the icon of the item
-                    Drawable d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_stop_24);
-                    icon.setImageDrawable(d);
                 }
+                soundAdapter.notifyDataSetChanged(); // updating view
             }
         });
     }
@@ -222,6 +222,13 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     @Override
     protected void onPause() {
         super.onPause();
+
+        // set all sounds playing to false
+        for (Sound s : soundAdapter.getSounds()) {
+            s.setPlaying(false);
+        }
+        soundAdapter.notifyDataSetChanged();
+
         // killing the current media player every time
         // we change activity or application
         mp.stop();

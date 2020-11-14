@@ -40,16 +40,25 @@ public class MainActivity extends AppCompatActivity {
 
                 if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
 
-                    // getting random sound
-                    Random r = new Random();
-                    int randIndex = r.nextInt(SoundJsonFileStorage.get(getApplicationContext()).size());
-                    Sound sound = SoundJsonFileStorage.get(getApplicationContext()).findAll().get(randIndex);
+                    if (mp.isPlaying()) {
+                        // setting no name in view
+                        nameView.setText(null);
 
-                    // setting name in view
-                    nameView.setText(sound.getName());
+                        // stop the sound
+                        mp.pause();
 
-                    // play the sound
-                    SoundUtility.playSound(getApplicationContext(), mp, sound);
+                    } else {
+                        // getting random sound
+                        Random r = new Random();
+                        int randIndex = r.nextInt(SoundJsonFileStorage.get(getApplicationContext()).size());
+                        Sound sound = SoundJsonFileStorage.get(getApplicationContext()).findAll().get(randIndex);
+
+                        // setting name in view
+                        nameView.setText(sound.getName());
+
+                        // play the sound
+                        SoundUtility.playSound(getApplicationContext(), mp, sound);
+                    }
 
                 } else {
                     nameView.setText("");
