@@ -95,12 +95,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if (item.getItemId() == R.id.goto_board_button) {
             Intent gotoIntent = new Intent(getApplicationContext(), BoardActivity.class);
             startActivity(gotoIntent);
             return true;
-
         }
         return super.onOptionsItemSelected(item);
     }
