@@ -45,20 +45,11 @@ public class MainActivity extends AppCompatActivity {
                 // getting name to displayed it in view
                 TextView nameView = findViewById(R.id.sound_name_playing);
 
-                //getting image displayed in view
-                Button buttonView = findViewById(R.id.random_button);
-                Drawable d;
-
                 if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
 
-                    // Stops the sound when already playing
                     if (mp.isPlaying()) {
                         // setting no name in view
                         nameView.setText(null);
-
-                        // setting image on play
-                        d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_play_arrow_24);
-                        buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
 
                         // setting button color
                         findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
@@ -80,10 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
                         // setting button color
                         findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccentDark, getTheme()));
-
-                        // setting image on stop
-                        d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_stop_24);
-                        buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
 
                         // play the sound
                         SoundUtility.playSound(getApplicationContext(), mp, sound);
