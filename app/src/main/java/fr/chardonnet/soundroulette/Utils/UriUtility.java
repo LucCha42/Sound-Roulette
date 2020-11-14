@@ -7,9 +7,11 @@ import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UriUtility {
 
-    @NonNull
     public static String getFileName(@NonNull Uri uri, @NonNull ContentResolver contentResolver) {
         String result = null;
 
@@ -28,6 +30,14 @@ public class UriUtility {
                 result = result.substring(cut + 1);
             }
         }
+
+        // removing the extension from file name
+        Pattern p = Pattern.compile("(.*)\\.[^.]+$");
+        Matcher m = p.matcher(result);
+        if(m.matches()) {
+            return m.group(1);
+        }
+
         return result;
     }
 
