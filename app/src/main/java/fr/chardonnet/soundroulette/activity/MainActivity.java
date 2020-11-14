@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
                         // setting no name in view
                         nameView.setText(null);
 
+                        // setting button color
+                        findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
+
                         // stop the sound
                         mp.pause();
 
@@ -55,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
                         // setting name in view
                         nameView.setText(sound.getName());
+
+                        // setting button color
+                        findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccentDark, getTheme()));
 
                         // play the sound
                         SoundUtility.playSound(getApplicationContext(), mp, sound);
