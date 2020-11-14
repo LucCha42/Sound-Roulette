@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -152,8 +153,12 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                 Sound sound = soundAdapter.getSounds().get(index);
 
                 if (mp.isPlaying() && sound.isPlaying()) {
+                    // stop the sound
                     sound.setPlaying(false);
                     mp.pause();
+
+                    // enable the screen to go to sleep
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
                 } else {
                     // reset all other items
@@ -163,8 +168,13 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                     // play the selected sound
                     sound.setPlaying(true);
                     SoundUtility.playSound(getApplicationContext(), mp, sound);
+
+                    // keep the screen awake
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
-                soundAdapter.notifyDataSetChanged(); // updating view
+
+                // updating view
+                soundAdapter.notifyDataSetChanged();
             }
         });
     }

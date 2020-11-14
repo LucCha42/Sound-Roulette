@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
                         // stop the sound
                         mp.pause();
 
+                        // enable the screen to go to sleep
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
                     } else {
                         // getting random sound
                         Random r = new Random();
@@ -64,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
                         // play the sound
                         SoundUtility.playSound(getApplicationContext(), mp, sound);
+
+                        // keep the screen awake
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     }
 
                 } else {
