@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
                 Drawable d;
 
                 if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
-                        //If the sound is still playing, stop it.
-                    if (mp.isPlaying()) {
 
+                    // Stops the sound when already playing
+                    if (mp.isPlaying()) {
                         // setting image on play
                         d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_play_arrow_24);
                         buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         // stop the sound
                         mp.pause();
 
-                    }else {
+                    } else {
                         // getting random sound
                         Random r = new Random();
                         int randIndex = r.nextInt(SoundJsonFileStorage.get(getApplicationContext()).size());

@@ -29,32 +29,13 @@ import fr.chardonnet.soundroulette.Utils.SoundUtility;
 import fr.chardonnet.soundroulette.Utils.UriUtility;
 import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
-/**
- * Board activity
- */
 public class BoardActivity extends AppCompatActivity implements SoundNameDialog.SoundNameDialogListener {
-    /**
-     * Request code for sound loading
-     */
+
     public final static int REQUEST_LOAD_SOUND = 1;
 
-    /**
-     * Sound adapter
-     */
     private SoundAdapter soundAdapter;
-
-    /**
-     * Action mode
-     */
     private ActionMode actionMode;
-
-    /**
-     * Media player
-     */
     private MediaPlayer mp;
-    /**
-     * Id of the selected item
-     */
     private int itemSelected;
 
 
@@ -78,22 +59,17 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            //Main button
+
             case R.id.goto_main_button:
                 Intent gotoIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(gotoIntent);
                 return true;
-            //Add button
+
             case R.id.add_button:
-                //intent
                 Intent addAudioIntent = new Intent();
-                //audio
                 addAudioIntent.setType("audio/*");
-                //open document
                 addAudioIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                //openable
                 addAudioIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                //start intent
                 startActivityForResult(addAudioIntent, REQUEST_LOAD_SOUND);
                 return true;
 
