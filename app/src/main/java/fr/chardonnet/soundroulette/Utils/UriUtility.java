@@ -1,4 +1,4 @@
-package fr.chardonnet_rakotoanosy.soundroulette.Utils;
+package fr.chardonnet.soundroulette.Utils;
 
 import android.content.ContentResolver;
 import android.database.Cursor;

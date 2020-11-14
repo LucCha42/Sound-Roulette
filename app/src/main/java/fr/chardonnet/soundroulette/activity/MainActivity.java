@@ -1,4 +1,4 @@
-package fr.chardonnet_rakotoanosy.soundroulette.activity;
+package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -17,10 +17,10 @@ import androidx.core.content.ContextCompat;
 
 import java.util.Random;
 
-import fr.chardonnet_rakotoanosy.soundroulette.R;
-import fr.chardonnet_rakotoanosy.soundroulette.Sound;
-import fr.chardonnet_rakotoanosy.soundroulette.Utils.SoundUtility;
-import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
+import fr.chardonnet.soundroulette.R;
+import fr.chardonnet.soundroulette.Sound;
+import fr.chardonnet.soundroulette.Utils.SoundUtility;
+import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
 public class MainActivity extends AppCompatActivity {
 

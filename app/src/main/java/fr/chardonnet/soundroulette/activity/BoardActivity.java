@@ -1,4 +1,4 @@
-package fr.chardonnet_rakotoanosy.soundroulette.activity;
+package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -21,13 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.chardonnet_rakotoanosy.soundroulette.R;
-import fr.chardonnet_rakotoanosy.soundroulette.Sound;
-import fr.chardonnet_rakotoanosy.soundroulette.SoundAdapter;
-import fr.chardonnet_rakotoanosy.soundroulette.SoundNameDialog;
-import fr.chardonnet_rakotoanosy.soundroulette.Utils.SoundUtility;
-import fr.chardonnet_rakotoanosy.soundroulette.Utils.UriUtility;
-import fr.chardonnet_rakotoanosy.soundroulette.storage.SoundJsonFileStorage;
+import fr.chardonnet.soundroulette.R;
+import fr.chardonnet.soundroulette.Sound;
+import fr.chardonnet.soundroulette.SoundAdapter;
+import fr.chardonnet.soundroulette.SoundNameDialog;
+import fr.chardonnet.soundroulette.Utils.SoundUtility;
+import fr.chardonnet.soundroulette.Utils.UriUtility;
+import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 
 /**
  * Board activity

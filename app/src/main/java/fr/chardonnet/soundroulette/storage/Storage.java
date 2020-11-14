@@ -1,4 +1,4 @@
-package fr.chardonnet_rakotoanosy.soundroulette.storage;
+package fr.chardonnet.soundroulette.storage;
 
 import java.util.List;
 
