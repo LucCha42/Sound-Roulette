@@ -63,10 +63,11 @@ public class MainActivity extends AppCompatActivity {
                         // setting button color
                         findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
 
-
-
                         // stop the sound
                         mp.pause();
+
+                        // enable the screen to go to sleep
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
                     } else {
                         // getting random sound
@@ -80,16 +81,15 @@ public class MainActivity extends AppCompatActivity {
                         // setting button color
                         findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccentDark, getTheme()));
 
-
                         // setting image on stop
                         d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_stop_24);
                         buttonView.setCompoundDrawablesWithIntrinsicBounds(null,null,null,d);
 
-
-
-
                         // play the sound
                         SoundUtility.playSound(getApplicationContext(), mp, sound);
+
+                        // keep the screen awake
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     }
                 } else {
                     nameView.setText("");
