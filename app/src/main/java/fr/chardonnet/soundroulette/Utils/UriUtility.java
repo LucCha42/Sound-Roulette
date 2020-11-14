@@ -20,7 +20,6 @@ public class UriUtility {
                 }
             }
         }
-
         if (result == null) {
             result = uri.getPath();
             int cut = result.lastIndexOf('/');
@@ -29,7 +28,6 @@ public class UriUtility {
                 result = result.substring(cut + 1);
             }
         }
-
         return result;
     }
 

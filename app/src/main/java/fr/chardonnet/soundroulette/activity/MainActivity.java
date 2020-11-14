@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // getting name displayed in view
+                // getting name to displayed it in view
                 TextView nameView = findViewById(R.id.sound_name_playing);
 
                 //getting image displayed in view
@@ -89,18 +89,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==R.id.goto_board_button) {
+
+        if (item.getItemId() == R.id.goto_board_button) {
             Intent gotoIntent = new Intent(getApplicationContext(), BoardActivity.class);
             startActivity(gotoIntent);
             return true;
-        } else {
-                return super.onOptionsItemSelected(item);
+
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        // killing the current media player every time
+        // we change activity or application
         mp.stop();
     }
 
