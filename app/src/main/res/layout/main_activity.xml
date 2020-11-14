@@ -27,7 +27,7 @@
         android:layout_height="220dp"
         android:background="@color/colorAccent"
         android:fallbackLineSpacing="true"
-        android:text="Roulette"
+        android:text="@string/random_button_name"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

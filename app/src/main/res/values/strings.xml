@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Sound Roulette</string>
+    <string name="image_placeholder">img</string>
+    <string name="random_button_name">Roulette</string>
+    <string name="random_button_invalid">No sound registered</string>
+    <string name="board_file_error">File loading error</string>
+    <string name="board_file_invalid">No sound selected</string>
+    <string name="board_contextual_text">Choose an action</string>
+    <string name="rename_dialog_hint">Name</string>
+    <string name="rename_dialog_invalid">Please enter a non-empty name</string>
+    <string name="rename_dialog_title">Enter name</string>
 </resources>

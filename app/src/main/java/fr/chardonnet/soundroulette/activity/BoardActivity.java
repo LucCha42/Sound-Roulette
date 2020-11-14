@@ -52,26 +52,24 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+        int itemId = item.getItemId();
 
-            // go to main activity
-            case R.id.goto_main_button:
-                Intent gotoIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(gotoIntent);
-                return true;
-
-            // open device's file explorer to choose a sound to add
-            case R.id.add_button:
-                Intent addAudioIntent = new Intent();
-                addAudioIntent.setType("audio/*");
-                addAudioIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                addAudioIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(addAudioIntent, REQUEST_LOAD_SOUND);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        // go to main activity
+        if (itemId == R.id.goto_main_button) {
+            Intent gotoIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(gotoIntent);
+            return true;
         }
+        // open device's file explorer to choose a sound to add
+        else if (itemId == R.id.add_button) {
+            Intent addAudioIntent = new Intent();
+            addAudioIntent.setType("audio/*");
+            addAudioIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+            addAudioIntent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(addAudioIntent, REQUEST_LOAD_SOUND);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -100,10 +98,10 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                 soundAdapter.notifyItemInserted(sound.getId());
 
             } else {
-                Toast.makeText(this, "File loading error", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.board_file_error), Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(this, "No sound selected", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.board_file_invalid), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -185,7 +183,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.edit_menu, menu);
-            mode.setTitle("Choose an action");
+            mode.setTitle(getString(R.string.board_contextual_text));
             return true;
         }
 
@@ -196,29 +194,26 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
+            int itemId = item.getItemId();
 
-                // open dialog to rename sound
-                case R.id.rename_button:
-                    openDialog(soundAdapter.getSounds().get(itemSelected));
-                    mode.finish();
-                    return true;
-
-                // delete sound
-                case R.id.delete_buton:
-                    // getting id of sound to delete
-                    int soundId = soundAdapter.getSounds().get(itemSelected).getId();
-                    // remove sound from file
-                    SoundJsonFileStorage.get(getApplicationContext()).delete(soundId);
-                    // refreshing the view
-                    soundAdapter.update();
-                    soundAdapter.notifyItemRemoved(itemSelected);
-                    mode.finish();
-                    return true;
-
-                default:
-                    return false;
+            // open dialog to rename sound
+            if (itemId == R.id.rename_button) {
+                openDialog(soundAdapter.getSounds().get(itemSelected));
+                mode.finish();
+                return true;
             }
+            // delete sound
+            else if (itemId == R.id.delete_buton) {// getting id of sound to delete
+                int soundId = soundAdapter.getSounds().get(itemSelected).getId();
+                // remove sound from file
+                SoundJsonFileStorage.get(getApplicationContext()).delete(soundId);
+                // refreshing the view
+                soundAdapter.update();
+                soundAdapter.notifyItemRemoved(itemSelected);
+                mode.finish();
+                return true;
+            }
+            return false;
         }
 
         @Override

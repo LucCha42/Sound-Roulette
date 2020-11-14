@@ -12,8 +12,8 @@ import java.io.OutputStreamWriter;
 public abstract class FileStorage<T> implements Storage<T> {
 
     private static final String PREFIX = "storage_";
-    private Context context;
-    private String fileName;
+    private final Context context;
+    private final String fileName;
 
     public FileStorage(Context context, String name, String extension) {
         this.context = context;

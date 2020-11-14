@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
                     nameView.setText("");
-                    Toast.makeText(getApplicationContext(), "No sound registered", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.random_button_invalid), Toast.LENGTH_LONG).show();
                 }
             }
         });

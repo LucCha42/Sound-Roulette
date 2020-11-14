@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
+import java.util.Objects;
 
 public class SoundNameDialog extends AppCompatDialogFragment {
 
@@ -22,24 +25,25 @@ public class SoundNameDialog extends AppCompatDialogFragment {
         this.sound = sound;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View view = inflater.inflate(R.layout.sound_name_dialog, null);
 
         builder.setView(view)
-                .setTitle("Enter name")
+                .setTitle(R.string.rename_dialog_title)
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (!editSoundName.getText().toString().equals("")) {
-                            editSoundName.setHint("");
                             String name = editSoundName.getText().toString();
                             listener.rename(sound, name);
                         } else {
-                            editSoundName.setHint("Enter a non-empty name.");
+                            String text = getResources().getString(R.string.rename_dialog_invalid);
+                            Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
                         }
                     }
                 })
