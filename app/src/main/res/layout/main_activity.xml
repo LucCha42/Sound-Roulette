@@ -29,7 +29,7 @@
         android:layout_weight="1"
         android:background="@color/colorAccent"
         android:fallbackLineSpacing="true"
-        android:text="Roulette"
+        android:text="@string/random_button_name"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:drawableBottom="@drawable/ic_baseline_play_arrow_24"

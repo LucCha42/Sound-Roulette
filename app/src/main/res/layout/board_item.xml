@@ -12,14 +12,15 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_baseline_play_arrow_24"
-        app:tint="@android:color/black" />
+        app:tint="@android:color/black"
+        android:contentDescription="@string/image_placeholder" />
 
     <TextView
         android:id="@+id/sound_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="TextView"
+        android:text=""
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
