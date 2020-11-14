@@ -2,6 +2,7 @@ package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.chardonnet.soundroulette.R;
 import fr.chardonnet.soundroulette.Sound;
@@ -66,6 +70,7 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
             addAudioIntent.setType("audio/*");
             addAudioIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
             addAudioIntent.addCategory(Intent.CATEGORY_OPENABLE);
+            addAudioIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             startActivityForResult(addAudioIntent, REQUEST_LOAD_SOUND);
             return true;
         }
@@ -78,16 +83,44 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
         // adding a new sound after choosing a file
         if (requestCode == REQUEST_LOAD_SOUND && resultCode == RESULT_OK && data != null) {
-            if (data.getData() != null) {
+            // list of all uris
+            List<Uri> uris = new ArrayList<>();
 
+            // multiple selection
+            if (data.getClipData() != null) {
+                // number of items in multiple selection
+                int count = data.getClipData().getItemCount();
+
+                // current item id
+                int currentItem = 0;
+
+                while (currentItem < count) {
+                    // uri temp
+                    Uri tmpUri = data.getClipData().getItemAt(currentItem).getUri();
+
+                    // add uri to list
+                    uris.add(tmpUri);
+
+                    // next id
+                    currentItem ++;
+                }
+            }
+            else if (data.getData() != null) {
+                // single selection
+                uris.add(data.getData());
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.board_file_error), Toast.LENGTH_LONG).show();
+            }
+
+            for (Uri fileUri : uris) {
                 // getting id of the new sound
                 int nextId = SoundJsonFileStorage.get(this).getNextId();
 
                 // getting file name and path of the new sound
-                String defaultName = UriUtility.getFileName(data.getData(), getContentResolver());
+                String defaultName = UriUtility.getFileName(fileUri, getContentResolver());
 
                 // creating the new sound
-                Sound sound = new Sound(nextId, data.getData(), defaultName, false);
+                Sound sound = new Sound(nextId, fileUri, defaultName, false);
 
                 // sound naming dialog
                 openDialog(sound);
@@ -96,9 +129,6 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                 SoundJsonFileStorage.get(this).insert(sound);
                 soundAdapter.update();
                 soundAdapter.notifyItemInserted(sound.getId());
-
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.board_file_error), Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(this, getResources().getString(R.string.board_file_invalid), Toast.LENGTH_LONG).show();
