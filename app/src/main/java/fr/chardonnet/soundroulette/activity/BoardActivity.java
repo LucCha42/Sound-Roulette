@@ -122,9 +122,6 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
                 // creating the new sound
                 Sound sound = new Sound(nextId, fileUri, defaultName, false);
 
-                // sound naming dialog
-                openDialog(sound);
-
                 //updating model and view
                 SoundJsonFileStorage.get(this).insert(sound);
                 soundAdapter.update();
