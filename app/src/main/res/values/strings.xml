@@ -9,4 +9,9 @@
     <string name="rename_dialog_hint">Name</string>
     <string name="rename_dialog_invalid">Please enter a non-empty name</string>
     <string name="rename_dialog_title">Enter name</string>
+    <string name="add_button">Add</string>
+    <string name="home_button">Home</string>
+    <string name="rename_button">Rename</string>
+    <string name="delete_button">Delete</string>
+    <string name="board_button">Board</string>
 </resources>

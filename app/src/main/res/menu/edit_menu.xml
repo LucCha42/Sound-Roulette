@@ -4,9 +4,9 @@
     <item
         android:id="@+id/rename_button"
         android:icon="@drawable/ic_baseline_edit_24"
-        android:title="RenameButton" />
+        android:title="@string/rename_button" />
     <item
         android:id="@+id/delete_buton"
         android:icon="@drawable/ic_baseline_delete_24"
-        android:title="DeleteButton" />
+        android:title="@string/delete_button" />
 </menu>

@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer mp;
     private TextView nameView;
+    private Button randomButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         mp = new MediaPlayer();
         nameView = findViewById(R.id.sound_name_playing);
+        randomButton = findViewById((R.id.random_button));
 
         // random button listener
         findViewById(R.id.random_button).setOnClickListener(new View.OnClickListener() {
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         nameView.setText(null);
 
                         // setting button color
-                        findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
+                        randomButton.setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
 
                         // stop the sound
                         mp.pause();
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         nameView.setText(sound.getName());
 
                         // setting button color
-                        findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccentDark, getTheme()));
+                        randomButton.setBackgroundColor(getResources().getColor(R.color.colorAccentDark, getTheme()));
 
                         // play the sound
                         SoundUtility.playSound(getApplicationContext(), mp, sound);
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     }
                 } else {
-                    nameView.setText("");
+                    nameView.setText(null);
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.random_button_invalid), Toast.LENGTH_LONG).show();
                 }
             }
@@ -82,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                nameView.setText("");
-                findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
+                nameView.setText(null);
+                randomButton.setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         });
@@ -109,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        // reset the view
+        randomButton.setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
+        nameView.setText(null);
+
         // killing the current media player every time
         // we change activity or application
         mp.stop();

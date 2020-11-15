@@ -5,7 +5,7 @@
     <item
         android:id="@+id/goto_board_button"
         android:icon="@drawable/ic_baseline_list_24"
-        android:title="GotoBoardButton"
+        android:title="@string/board_button"
         app:showAsAction="ifRoom" />
 
 </menu>
