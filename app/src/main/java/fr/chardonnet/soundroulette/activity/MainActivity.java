@@ -1,23 +1,17 @@
 package fr.chardonnet.soundroulette.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import android.widget.Button;
-
 import android.view.WindowManager;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import java.util.Random;
 
@@ -29,6 +23,7 @@ import fr.chardonnet.soundroulette.storage.SoundJsonFileStorage;
 public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer mp;
+    private TextView nameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +31,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
 
         mp = new MediaPlayer();
+        nameView = findViewById(R.id.sound_name_playing);
 
         // random button listener
         findViewById(R.id.random_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // getting name to displayed it in view
-                TextView nameView = findViewById(R.id.sound_name_playing);
 
                 if (SoundJsonFileStorage.get(getApplicationContext()).size() > 0) {
 
@@ -82,6 +75,16 @@ public class MainActivity extends AppCompatActivity {
                     nameView.setText("");
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.random_button_invalid), Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        // finished sound event
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                nameView.setText("");
+                findViewById(R.id.random_button).setBackgroundColor(getResources().getColor(R.color.colorAccent, getTheme()));
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         });
 

@@ -44,6 +44,20 @@ public class BoardActivity extends AppCompatActivity implements SoundNameDialog.
 
         mp = new MediaPlayer();
         buildRecyclerView();
+
+        // finished sound event
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                // reset icons
+                for (Sound sound : soundAdapter.getSounds()) {
+                    sound.setPlaying(false);
+                }
+                soundAdapter.notifyDataSetChanged();
+                // the screen can go to sleep
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+        });
     }
 
     // ---- Menu action bar
